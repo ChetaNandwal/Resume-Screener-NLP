@@ -2,8 +2,8 @@
 import os
 
 # Base directories
-BASE_DIR = os.path.expanduser("~/Desktop/resume_screener_data/data")
-PROJECT_DIR = os.path.expanduser("~/Desktop/resume_screener_deepseek")
+BASE_DIR = os.path.expanduser("~/Desktop/resume_screener_latest/data")
+PROJECT_DIR = os.path.expanduser("~/Desktop/resume_screener_latest")
 
 # File paths
 EXTRACTED_DATA = os.path.join(PROJECT_DIR, "extracted_resumes.csv")
