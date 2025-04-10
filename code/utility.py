@@ -1,4 +1,4 @@
-# utils.py
+
 import os
 import fitz
 import pandas as pd
@@ -24,7 +24,7 @@ def extract_text(pdf_path):
 
 def clean_text(text):
     """Clean and normalize text"""
-    
+
     if pd.isna(text):
         return ""
     text = text.lower()
@@ -75,12 +75,21 @@ def load_faiss_index(index_path, embeddings_path):
     index = faiss.read_index(index_path)
     embeddings = np.load(embeddings_path)
     print("✅ FAISS index and embeddings loaded")
-    return index, embeddings
+    return index, embeddings 
 
 def find_pdf(filename):
-    """Locate PDF file in category folders"""
-    for category in os.listdir(BASE_DIR):
-        file_path = os.path.join(BASE_DIR, category, filename)
-        if os.path.exists(file_path):
-            return file_path
+    """Locate PDF file with case-insensitive search"""
+    # for category in os.listdir(BASE_DIR):
+    #     category_path = os.path.join(BASE_DIR, category)
+    #     if os.path.isdir(category_path):
+    #         # Case-insensitive search
+    #         for file in os.listdir(category_path):
+    #             if file.lower() == filename.lower():
+    #                 return os.path.join(category_path, file)
+    # return None
+
+    for root, dirs, files in os.walk(BASE_DIR):
+        for file in files:
+            if file.lower() == filename.lower():
+                return os.path.join(root, file)
     return None

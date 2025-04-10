@@ -20,7 +20,9 @@ async function searchResumes() {
 
         const data = await response.json();
         displayResults(data);
-    } catch (error) {
+    } 
+    
+    catch (error) {
         resultsDiv.innerHTML = `
             <div class="error">
                 <p>❌ Error: ${error.message}</p>
@@ -40,18 +42,31 @@ function displayResults(data) {
         return;
     }
 
+    // 1. Get the correct base URL
+    // const baseUrl = window.location.origin.includes('localhost') 
+    //     ? 'http://127.0.0.1:8000' 
+    //     : window.location.origin;
+    const baseUrl = "http://127.0.0.1:8000";  // Force it to use the backend URL directly
+
+
     data.results.forEach((resume, index) => {
         const previewText = resume.text.length > 200 
             ? `${resume.text.substring(0, 200)}...` 
             : resume.text;
         
+        // 2. Construct the FULL PDF URL
+        // const pdfUrl = `${baseUrl}/pdfs/${encodeURIComponent(resume.filename)}`;
+        const pdfUrl = `${baseUrl}/pdfs/${encodeURIComponent(resume.filename)}`;
+
+        
         resultsDiv.innerHTML += `
             <div class="resume-result">
                 <h4>${resume.filename.replace(/.pdf$/i, '')}</h4>
                 <p><strong>Category:</strong> ${resume.category || 'N/A'}</p>
-                <p><strong>Match:</strong> ${(resume.score * 100).toFixed(1)}%</p>
+                <p><strong>Match:</strong> ${(resume.score ).toFixed(1)}%</p>
                 <div class="text-preview">${previewText}</div>
-                <a href="${resume.file_path}" target="_blank" class="pdf-link">📄 View PDF</a>
+                <!-- 3. Use the FULL URL here -->
+                <a href="${pdfUrl}" target="_blank" class="pdf-link">📄 View PDF</a>
                 <hr>
             </div>
         `;
